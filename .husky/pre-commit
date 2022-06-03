@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+ . "$(dirname -- "$0")/_/husky.sh"
+
+QUIET=' -q'
+if sh -c ": >/dev/tty" &>/dev/null; then
+  # /dev/tty is available and usable
+  export FORCE_COLOR=1
+  QUIET=""
+fi
+
+npx --no -- lint-staged $QUIET
+
