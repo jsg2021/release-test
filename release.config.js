@@ -1,4 +1,5 @@
 const Handlebars = require('handlebars');
+const {name} = require('./package.json');
 
 const repoURL = (root, ref) =>
   (root.repository
@@ -94,6 +95,24 @@ module.exports = {
         'message': 'chore(release): ${nextRelease.version} [skip ci]'
       }
     ],
+    ["semantic-release-jira-releases", {
+      "projectId": "WBRT",
+      "releaseNameTemplate": name + " v${version}",
+      "jiraHost": "https://waybetter.atlassian.net",
+      "ticketPrefixes": [ "WBRT" ]
+    }],
+    ["semantic-release-jira-releases", {
+      "projectId": "WBGR",
+      "releaseNameTemplate": name + " v${version}",
+      "jiraHost": "https://waybetter.atlassian.net",
+      "ticketPrefixes": [ "WBGR" ]
+    }],
+    ["semantic-release-jira-releases", {
+      "projectId": "LSQD",
+      "releaseNameTemplate": name + " v${version}",
+      "jiraHost": "https://waybetter.atlassian.net",
+      "ticketPrefixes": [ "LSQD" ]
+    }],
     '@semantic-release/npm'
   ],
 };
