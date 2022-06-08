@@ -47,7 +47,7 @@ Handlebars.registerHelper({
 });
 
 const parserOpts = {
-  issuePrefixes: 'WBRT-,#',
+  issuePrefixes: 'WBRT-,WBGR-,LSQD-,#',
   noteKeywords: ['BREAKING CHANGE', 'BREAKING CHANGES', 'BREAKING'],
 };
 
