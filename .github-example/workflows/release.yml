@@ -1,0 +1,47 @@
+name: release
+on:
+  schedule:
+    # Midnight Mondays (EST UTC-5) - Summer time is EDT (UTC-4)
+    - cron: "0 5 * * 2"
+  workflow_dispatch:
+
+permissions:
+  actions: write
+  checks: write
+  contents: write
+  deployments: write
+  issues: write
+  packages: write
+  pages: write
+  pull-requests: write
+  repository-projects: write
+  security-events: write
+  statuses: write
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.WAYBETTER_ACTION_BOT_GIT_TOKEN }}
+          fetch-depth: 0
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 'lts/*'
+      - name: Setup GemFury
+        env:
+          NPM_GEMFURY_TOKEN: ${{ secrets.NPM_GEMFURY_TOKEN }}
+        run: |
+          npm config set '@waybetter:registry' "https://npm.fury.io/waybetter/"
+          npm config set "//npm.fury.io/waybetter/:_authToken" "$NPM_GEMFURY_TOKEN"
+      - name: Install dependencies
+        run: npm ci
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          JIRA_AUTH: ${{ secrets.JIRA_AUTH }}
+        run: npx semantic-release

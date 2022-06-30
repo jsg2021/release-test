@@ -1,0 +1,25 @@
+version: 2
+registries:
+  npm-fury:
+    type: npm-registry
+    url: https://npm.fury.io/waybetter/
+    token: ${{secrets.NPM_GEMFURY_TOKEN}}
+updates:
+  - package-ecosystem: npm
+    directory: '/'
+    registries:
+      - npm-fury
+    commit-message:
+      prefix: 'chore'
+      prefix-development: 'build'
+      include: 'scope'
+    schedule:
+      interval: weekly
+    versioning-strategy: increase-if-necessary
+    allow:
+      - dependency-type: direct
+    ignore:
+      - dependency-name: '*'
+        update-types: ['version-update:semver-patch']
+    labels:
+      - 'dependencies'
